@@ -55,9 +55,14 @@ namespace SynologyNet.Repository
         private MethodInfo GetMethod()
         {
             var stackFrames = new StackTrace().GetFrames();
-            return RequestMethods
-                .Where(requestMethod => stackFrames.Any(stackFrame => stackFrame.GetMethod().MetadataToken.Equals(requestMethod.MetadataToken)))
+            var method = RequestMethods
+                .Where(requestMethod => stackFrames.Any(stackFrame => stackFrame.GetMethod().Name.Equals(requestMethod.Name)))
                 .First();
+
+            return method;
+            //return RequestMethods
+            //    .Where(requestMethod => stackFrames.Any(stackFrame => stackFrame.GetMethod().MetadataToken.Equals(requestMethod.MetadataToken)))
+            //    .First();
         }
 
         /// <summary>
