@@ -11,6 +11,7 @@
 	<PackageTags>synology api dsm dotnet core</PackageTags>
 	<Version>0.1.4</Version>
 	<Nullable>enable</Nullable>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
