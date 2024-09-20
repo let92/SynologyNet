@@ -17,7 +17,7 @@ namespace SynologyNet.Models.Responses.Photo
         /// Size of the file
         /// </summary>
         [JsonPropertyName("filesize")]
-        public int FileSize { get; set; }
+        public long FileSize { get; set; }
 
         /// <summary>
         /// Folder identifier
