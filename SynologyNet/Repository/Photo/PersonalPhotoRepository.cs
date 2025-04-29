@@ -107,7 +107,16 @@ namespace SynologyNet.Repository
 		{
 			var request = PrepareRequest();
 			request.AddParameterIfNotNull("item", $"[{item.Id}]");
-			request.AddParameterIfNotNull("id", album.Id);
+
+			// If album is owned and shared by other user, it must be used passphrase and not id of album.
+			if (!string.IsNullOrWhiteSpace(album.Passphrase))
+			{
+				request.AddParameterIfNotNull("passphrase", album.Passphrase);
+			}
+			else
+			{
+				request.AddParameterIfNotNull("id", album.Id);
+			}
 
 			return await _client.GetAsync<BaseDataResponse<ErrorListObject>>(request) ?? new();
 		}
