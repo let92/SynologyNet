@@ -30,22 +30,45 @@ namespace SynologyNet.Repository
 			return await _client.GetAsync<BaseDataResponse<AlbumObject>>(request) ?? new();
 		}
 
+		[Request(Api = "SYNO.Foto.Browse.Album", Method = "get")]
+		public async Task<BaseDataResponse<ListObject<Album>>> GetAlbum(Album album, AlbumGetFilter? albumGetFilter = null)
+		{
+			albumGetFilter ??= new(album.Passphrase);
+
+			var request = PrepareRequest(albumGetFilter);
+
+			return await _client.GetAsync<BaseDataResponse<ListObject<Album>>>(request) ?? new();
+		}
+
 		[Request(Api = "SYNO.Foto.Browse.Album", Method = "list")]
-		public async Task<BaseDataResponse<ListObject<Album>>> GetAlbums(PagingFilter? pagingFilter = null, SortableFilter? sortableFilter = null)
+		public async Task<BaseDataResponse<ListObject<Album>>> GetAlbums(PagingFilter? pagingFilter = null, SortableFilter? sortableFilter = null, AlbumGetFilter? albumGetFilter = null)
 		{
 			pagingFilter ??= new();
 			sortableFilter ??= new();
+			albumGetFilter ??= new();
 
-			return await _client.GetAsync<BaseDataResponse<ListObject<Album>>>(PrepareRequest(pagingFilter, sortableFilter)) ?? new();
+			return await _client.GetAsync<BaseDataResponse<ListObject<Album>>>(PrepareRequest(pagingFilter, sortableFilter, albumGetFilter)) ?? new();
+		}
+
+		[Request(Api = "SYNO.Foto.Browse.Album", Method = "list")]
+		public async Task<BaseDataResponse<ListObject<Album>>> GetSharedAlbumsWithOthers(PagingFilter? pagingFilter = null, SortableFilter? sortableFilter = null, AlbumGetFilter? albumGetFilter = null)
+		{
+			pagingFilter ??= new();
+			sortableFilter ??= new();
+			albumGetFilter ??= new();
+			albumGetFilter.SetCategoryToShared();
+
+			return await _client.GetAsync<BaseDataResponse<ListObject<Album>>>(PrepareRequest(pagingFilter, sortableFilter, albumGetFilter)) ?? new();
 		}
 
 		[Request(Api = "SYNO.Foto.Sharing.Misc", Method = "list_shared_with_me_album", Version = 1)]
-		public async Task<BaseDataResponse<ListObject<Album>>> GetSharedAlbums(PagingFilter? pagingFilter = null, SortableFilter? sortableFilter = null)
+		public async Task<BaseDataResponse<ListObject<Album>>> GetSharedAlbums(PagingFilter? pagingFilter = null, SortableFilter? sortableFilter = null, AlbumGetFilter? albumGetFilter = null)
 		{
 			pagingFilter ??= new();
 			sortableFilter ??= new();
+			albumGetFilter ??= new();
 
-			return await _client.GetAsync<BaseDataResponse<ListObject<Album>>>(PrepareRequest(pagingFilter, sortableFilter)) ?? new();
+			return await _client.GetAsync<BaseDataResponse<ListObject<Album>>>(PrepareRequest(pagingFilter, sortableFilter, albumGetFilter)) ?? new();
 		}
 
 		[Request(Api = "SYNO.Foto.Browse.Item", Method = "list")]

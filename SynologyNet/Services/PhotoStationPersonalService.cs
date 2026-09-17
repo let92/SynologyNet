@@ -26,9 +26,18 @@ namespace SynologyNet.Services
             return response.Data?.List ?? new List<Folder>();
         }
 
-        public async Task<IEnumerable<Album>> GetAlbums(PagingFilter? pagingFilter = null)
+        public async Task<Album> GetAlbum(Album album, AlbumGetFilter? albumGetFilter = null)
         {
-            var response = await Repository.GetAlbums(pagingFilter: pagingFilter);
+            var response = await Repository.GetAlbum(album, albumGetFilter: albumGetFilter);
+
+            CheckErrorCode(response);
+
+            return response.Data?.List?.FirstOrDefault() ?? new Album();
+        }
+
+        public async Task<IEnumerable<Album>> GetAlbums(PagingFilter? pagingFilter = null, AlbumGetFilter? albumGetFilter = null)
+        {
+            var response = await Repository.GetAlbums(pagingFilter: pagingFilter, albumGetFilter: albumGetFilter);
 
             CheckErrorCode(response);
 
@@ -44,9 +53,18 @@ namespace SynologyNet.Services
 			return response.Data?.Album ?? new Album();
 		}
 
-		public async Task<IEnumerable<Album>> GetSharedAlbums(PagingFilter? pagingFilter = null)
+		public async Task<IEnumerable<Album>> GetSharedAlbumsWithOthers(PagingFilter? pagingFilter = null, AlbumGetFilter? albumGetFilter = null)
         {
-            var response = await Repository.GetSharedAlbums(pagingFilter: pagingFilter);
+            var response = await Repository.GetSharedAlbumsWithOthers(pagingFilter: pagingFilter, albumGetFilter: albumGetFilter);
+
+            CheckErrorCode(response);
+
+            return response.Data?.List ?? new List<Album>();
+        }
+
+		public async Task<IEnumerable<Album>> GetSharedAlbums(PagingFilter? pagingFilter = null, AlbumGetFilter? albumGetFilter = null)
+        {
+            var response = await Repository.GetSharedAlbums(pagingFilter: pagingFilter, albumGetFilter: albumGetFilter);
 
             CheckErrorCode<PhotoErrorCode>(response);
 

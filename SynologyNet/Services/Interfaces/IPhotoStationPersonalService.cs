@@ -10,12 +10,21 @@ namespace SynologyNet.Services.Interfaces
     /// </summary>
     public interface IPhotoStationPersonalService
     {
-        /// <summary>
-        /// Get list of albums made by the current user
-        /// </summary>
-        /// <param name="pagingFilter">Pagination filtering for the collection</param>
-        /// <returns>List of albums</returns>
-        Task<IEnumerable<Album>> GetAlbums(PagingFilter? pagingFilter = null);
+		/// <summary>
+		/// Get data of selected album of the current user
+		/// </summary>
+		/// <param name="album">Source <seealso cref="Album"/></param>
+		/// <param name="albumGetFilter">Filter with additional data to get for album</param>
+		/// <returns>List of albums</returns>
+		Task<Album> GetAlbum(Album album, AlbumGetFilter? albumGetFilter = null);
+
+		/// <summary>
+		/// Get list of albums made by the current user
+		/// </summary>
+		/// <param name="pagingFilter">Pagination filtering for the collection</param>
+		/// <param name="albumGetFilter">Filter for getting additional data for the collection</param>
+		/// <returns>List of albums</returns>
+		Task<IEnumerable<Album>> GetAlbums(PagingFilter? pagingFilter = null, AlbumGetFilter? albumGetFilter = null);
 
         /// <summary>
         /// Create normal album
@@ -23,12 +32,21 @@ namespace SynologyNet.Services.Interfaces
         /// <returns>Created album</returns>
         Task<Album> CreateNormalAlbum(string albumName);
 
-        /// <summary>
-        /// Get list of shared albums with the current user
-        /// </summary>
-        /// <param name="pagingFilter">Pagination filtering for the collection</param>
-        /// <returns>List of shared albums</returns>
-        Task<IEnumerable<Album>> GetSharedAlbums(PagingFilter? pagingFilter = null);
+		/// <summary>
+		/// Get list of shared albums with the current user
+		/// </summary>
+		/// <param name="pagingFilter">Pagination filtering for the collection</param>
+		/// <param name="albumGetFilter">Filter for getting additional data for the collection</param>
+		/// <returns>List of shared albums</returns>
+		Task<IEnumerable<Album>> GetSharedAlbums(PagingFilter? pagingFilter = null, AlbumGetFilter? albumGetFilter = null);
+
+		/// <summary>
+		/// Get list of shared albums with other users
+		/// </summary>
+		/// <param name="pagingFilter">Pagination filtering for the collection</param>
+		/// <param name="albumGetFilter">Filter for getting additional data for the collection</param>
+		/// <returns>List of shared albums</returns>
+		Task<IEnumerable<Album>> GetSharedAlbumsWithOthers(PagingFilter? pagingFilter = null, AlbumGetFilter? albumGetFilter = null);
 
         /// <summary>
         /// Get a list of photos from the current user

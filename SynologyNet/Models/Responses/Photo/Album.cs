@@ -45,5 +45,8 @@ namespace SynologyNet.Models.Responses.Photo
 
         [JsonPropertyName("version")]
         public int Version { get; set; }
-    }
+
+		[JsonPropertyName("additional")]
+        public AlbumAdditional? Additional { get; set; }
+	}
 }
